@@ -81,7 +81,10 @@ class MainActivity : AppCompatActivity() {
                 addMascota.setInt(3, txtedad.text.toString().toInt())
                 addMascota.executeUpdate()
 
-
+                val nuevasMascotas =  obtenerdatos()
+                withContext(Dispatchers.Main) {
+                    (rcbmascotas.adapter as? Adaptador)?.Actualizarlista(nuevasMascotas)
+                }
 
             }
 
