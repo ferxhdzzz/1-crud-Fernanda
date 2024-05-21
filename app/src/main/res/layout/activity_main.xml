@@ -62,10 +62,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcdMascotas"
-        android:layout_width="280dp"
-        android:layout_height="208dp"
+        android:layout_width="330dp"
+        android:layout_height="213dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.58"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnagregar" />
+        app:layout_constraintTop_toBottomOf="@+id/btnagregar"
+        app:layout_constraintVertical_bias="0.534" />
 </androidx.constraintlayout.widget.ConstraintLayout>

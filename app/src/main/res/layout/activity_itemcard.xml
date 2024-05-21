@@ -24,6 +24,20 @@
             android:layout_weight="1"
             android:text="TextView"
             android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/imgeditar"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/baseline_edit_24" />
+
+        <ImageView
+            android:id="@+id/imgborrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/delete" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

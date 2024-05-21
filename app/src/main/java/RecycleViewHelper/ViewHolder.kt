@@ -9,4 +9,7 @@ import fernanda.hernandez.crudfernanda.R
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val textView: TextView = view.findViewById(R.id.txtmascotacard)
+    val imgeditar: ImageView = view.findViewById(R.id.imgeditar)
+    val imgborrar: ImageView = view.findViewById(R.id.imgborrar)
+
 }
