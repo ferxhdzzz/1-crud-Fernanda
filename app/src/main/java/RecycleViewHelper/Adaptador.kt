@@ -24,6 +24,11 @@ class Adaptador(private var Datos: List<DataClassmascotas>) : RecyclerView.Adapt
 
     }
 
+    fun actualizarpantalla (uuid: String, nuevonombre: String){
+        val index =Datos.indexOfFirst{it.uuid == uuid}
+        notifyDataSetChanged()
+    }
+
     fun eliminardatos(nombreMascota: String, position: Int) {
 
         //actualizar lista
