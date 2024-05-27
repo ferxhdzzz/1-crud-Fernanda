@@ -3,6 +3,7 @@ package RecycleViewHelper
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import fernanda.hernandez.crudfernanda.R
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.Claseconexion
 import modelo.DataClassmascotas
+import java.util.UUID
 
 
 class Adaptador(private var Datos: List<DataClassmascotas>) : RecyclerView.Adapter<ViewHolder>() {
@@ -35,8 +37,9 @@ class Adaptador(private var Datos: List<DataClassmascotas>) : RecyclerView.Adapt
 
             //crear una variable que contenga un preparestatement = manda la info a sql
             val deletemascota =
-                objconexion?.prepareStatement("delete from MascotasFernanda where nombreMascota = ? ")!!
+                objconexion?.prepareStatement("delete from mascotasfernanda where nombremascota = ? ")!!
             deletemascota.setString(1, nombreMascota)
+            deletemascota.executeUpdate()
 
             val commit = objconexion?.prepareStatement("commit")!!
             commit.executeUpdate()
@@ -48,6 +51,23 @@ class Adaptador(private var Datos: List<DataClassmascotas>) : RecyclerView.Adapt
         notifyItemRemoved(position)
         notifyDataSetChanged()
     }
+
+    //actualizar datos
+    fun actualizardatos(nuevonombre: String, uuid: String){
+        GlobalScope.launch(Dispatchers.IO) {
+            val objConexion = Claseconexion().cadenaConexion()
+
+            //VAIRABLE QUE TENGA UN PREPARESTATEMENT
+            val updatemascotas = objConexion?.prepareStatement("update mascotasfernanda set nombremascota = ? where uuid = ?")!!
+            updatemascotas.setString(1, nuevonombre)
+            updatemascotas.setString(2, uuid)
+            updatemascotas.executeUpdate()
+        }
+
+    }
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val vista =
@@ -89,8 +109,14 @@ class Adaptador(private var Datos: List<DataClassmascotas>) : RecyclerView.Adapt
             builder.setTitle("Editar")
             builder.setMessage("¿Desea editar la mascota?")
 
+            //cuadro de texto para editar
+            val cuadrotexto = EditText(context)
+            cuadrotexto.setHint(mascota.nombremascotas)
+            builder.setView(cuadrotexto)
+
             //botones
             builder.setPositiveButton("si") { dialog, which ->
+                actualizardatos(cuadrotexto.text.toString(), mascota.uuid)
             }
 
             builder.setNegativeButton("No") { dialog, which ->

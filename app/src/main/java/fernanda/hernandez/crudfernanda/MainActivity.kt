@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.Claseconexion
 import modelo.DataClassmascotas
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,8 +53,14 @@ class MainActivity : AppCompatActivity() {
 
             //recorro todos los registros de la base de datos
             while (resulSet.next())  {
+                val uuid= resulSet.getString("uuid")
                 val nombre = resulSet.getString("nombreMascota")
-                val mascota = DataClassmascotas(nombre)
+                val peso = resulSet.getInt("peso")
+                val edad = resulSet.getInt("edad")
+
+
+
+                val mascota = DataClassmascotas(uuid, nombre, peso, edad)
                 mascotas.add(mascota)
             }
             return mascotas
@@ -75,10 +82,11 @@ class MainActivity : AppCompatActivity() {
                 val objconexion = Claseconexion(). cadenaConexion()
 
                 // 2 creo una variable que contenga PrepareStatement
-                val addMascota = objconexion?.prepareStatement ("insert into MascotasFernanda values (?, ?, ?)")!!
-                addMascota.setString(1, txtnombre.text.toString())
-                addMascota.setInt(2, txtpeso.text.toString().toInt())
-                addMascota.setInt(3, txtedad.text.toString().toInt())
+                val addMascota = objconexion?.prepareStatement ("insert into MascotasFernanda(uuid, nombreMascota, peso, edad) values (?, ?, ?, ?)")!!
+                addMascota.setString(1, UUID.randomUUID().toString())
+                addMascota.setString(2, txtnombre.text.toString())
+                addMascota.setInt(3, txtpeso.text.toString().toInt())
+                addMascota.setInt(4, txtedad.text.toString().toInt())
                 addMascota.executeUpdate()
 
                 val nuevasMascotas =  obtenerdatos()
