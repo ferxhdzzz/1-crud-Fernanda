@@ -1,11 +1,13 @@
 package RecycleViewHelper
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import fernanda.hernandez.crudfernanda.R
+import fernanda.hernandez.crudfernanda.detallemascota
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -67,6 +69,10 @@ class Adaptador(private var Datos: List<DataClassmascotas>) : RecyclerView.Adapt
             updatemascotas.setString(1, nuevonombre)
             updatemascotas.setString(2, uuid)
             updatemascotas.executeUpdate()
+
+            withContext(Dispatchers.Main){
+                actualizarpantalla(uuid, nuevonombre)
+            }
         }
 
     }
@@ -130,5 +136,22 @@ class Adaptador(private var Datos: List<DataClassmascotas>) : RecyclerView.Adapt
             val dialog = builder.create()
             dialog.show()
         }
+
+        //otra pantalla
+        holder.itemView.setOnClickListener(){
+            val context = holder.itemView.context
+
+            //cambiar pantalla
+            val pantalladetalle = Intent(context, detallemascota::class.java)
+
+            pantalladetalle.putExtra("mascotaUUID", mascota.uuid)
+            pantalladetalle.putExtra("nombremascota", mascota.nombremascotas)
+            pantalladetalle.putExtra("edad", mascota.edad)
+            pantalladetalle.putExtra("peso", mascota.peso)
+
+            context.startActivity(pantalladetalle)
+        }
+
+
   }
 }
